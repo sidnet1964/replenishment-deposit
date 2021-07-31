@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cashback</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div>
+    <form id="cashback-form">
+        <div>
+            <input id="special-amount-input" maxlength="7">
+            <span id="special-amount-error"></span>
+        </div>
+        <div>
+            <input id="other-amount-input"maxlength="7">
+            <span id="other-amount-error"></span>
+        </div>
+        <button>Рассчитать</button>
+    </form>
+    <div>
+        <h3>Ваш кешбек</h3>
+        <p>По специальным категориям <span id="special-cashback"></span> ₽</p>
+        <p>По остальным расходам <span id="other-cashback"></span> ₽</p>
+        <p>Итого <span id="total-cashback"></span> ₽</p>
+    </div>
+</div>
+<script src="js/app.js"></script>
+</body>
+</html>
