@@ -1,28 +1,22 @@
 'use strict';
 //  модуль расчета
 function calculatePercent(periodValue){
-    if (periodValue < 3) return 0;
-    if (periodValue < 6) return 2;
-    if (periodValue < 9) return 2.2;
-    if (periodValue < 12) return 2.3;
-    if (periodValue < 18) return 2.6;
-    if (periodValue === 18) return 2.7;
+    if (periodValue < 3) {return 0;}
+    if (periodValue < 6) {return 2;}
+    if (periodValue < 9) {return 2.2;}
+    if (periodValue < 12) {return 2.3;}
+    if (periodValue < 18) {return 2.6;}
+    if (periodValue === 18) {return 2.7;}
 //  больше 18 месяцев нельзя, или будет 2.7
     return 0;
 }
 function calculateDeposit(amountInputValue, periodInputValue){
     const percentValue = calculatePercent(periodInputValue);
-// Sp — сумма процентов (доход),
-// К — первоначальная сумма вклада (капитал),
-// P — годовая процентная ставка,
-// N — число периодов начисления процентов.
-// d — количество дней начисления процентов по привлеченному вкладу,
-// D — количество дней в календарном году (365 или 366).
-// Sp = K * ((1 + P*d/D/100) стерпень N — 1)
     const monthInYear = 12;
-    const periodAdd = 1;
-    const profitValue = amountInputValue * ((1 + percentValue * periodInputValue / monthInYear / 100)**periodAdd - 1);
-    const totalValue = amountInputValue + profitValue;
+    const totalValue = amountInputValue * ((1 + percentValue / (monthInYear * 100 ))**periodInputValue);
+    const profitValue = totalValue - amountInputValue;
+//  {x * (1+s/(12*100))^{m}}
+//  где x — начальная сумма вклада, s — годовая ставка в процентах, m — срок вклада в месяцах.
     return {
         totalValue,
         profitValue,
