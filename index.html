@@ -5,27 +5,24 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Cashback</title>
+    <title>Deposit</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <div>
-    <form id="cashback-form">
+    <form id="deposit-form">
         <div>
-            <input id="special-amount-input" maxlength="7">
-            <span id="special-amount-error"></span>
+            <input id="amount-input">
         </div>
         <div>
-            <input id="other-amount-input"maxlength="7">
-            <span id="other-amount-error"></span>
+            <input id="period-input">
         </div>
-        <button>Рассчитать</button>
+        <button id ="calculate">Рассчитать</button>
     </form>
     <div>
-        <h3>Ваш кешбек</h3>
-        <p>По специальным категориям <span id="special-cashback"></span> ₽</p>
-        <p>По остальным расходам <span id="other-cashback"></span> ₽</p>
-        <p>Итого <span id="total-cashback"></span> ₽</p>
+        <p>Сумма в конце срока <span id="total"></span> ₽</p>
+        <p>Доход <span id="profit"></span> ₽</p>
+        <p>Ставка в год <span id="percent"></span> %</p>
     </div>
 </div>
 <script src="js/app.js"></script>

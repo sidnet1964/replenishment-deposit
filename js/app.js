@@ -1,69 +1,76 @@
 'use strict';
-function calculateCashback(specialCategoryPurchases, otherCategoryPurchases){
-    const specialCategoryPercent = 0.03;
-    const otherCategoryPercent = 0.01;
-    const specialCategoryCashback = specialCategoryPurchases * specialCategoryPercent;
-    const otherCategoryCashback = otherCategoryPurchases * otherCategoryPercent;
-    let totalCashback = specialCategoryCashback + otherCategoryCashback;
-    const limit = 10000;
+//  модуль расчета
+function calculatePercent(periodValue){
+    if (periodValue < 3) return 0;
+    if (periodValue < 6) return 2;
+    if (periodValue < 9) return 2.2;
+    if (periodValue < 12) return 2.3;
+    if (periodValue < 18) return 2.6;
+    if (periodValue === 18) return 2.7;
+//  больше 18 месяцев нельзя, или будет 2.7
+    return 0;
+}
+function calculateDeposit(amountInputValue, periodInputValue){
+    const percentValue = calculatePercent(periodInputValue);
+// Sp — сумма процентов (доход),
+// К — первоначальная сумма вклада (капитал),
+// P — годовая процентная ставка,
+// N — число периодов начисления процентов.
+// d — количество дней начисления процентов по привлеченному вкладу,
+// D — количество дней в календарном году (365 или 366).
+// Sp = K * ((1 + P*d/D/100) стерпень N — 1)
+    const monthInYear = 12;
+    const periodAdd = 1;
+    const profitValue = amountInputValue * ((1 + percentValue * periodInputValue / monthInYear / 100)**periodAdd - 1);
+    const totalValue = amountInputValue + profitValue;
     return {
-        specialCategoryCashback,
-        otherCategoryCashback,
-        totalCashback: totalCashback > limit ? limit : totalCashback,
+        totalValue,
+        profitValue,
+        percentValue,
     };
 }
-// const specialCategoryPurchases = 250000;
-// const otherCategoryPurchases = 700000;
-const cashback = calculateCashback(5000, 10000);
-console.log(cashback);
+// const cashback = calculateDeposit(5000, 10000);
+// console.log(cashback);
 function handleSubmit(evt){
     evt.preventDefault();
 
-    specialAmountErrorEl.textContent = '';
-    otherAmountErrorEl.textContent = '';
-    specialCashbackEl.textContent = '';
-    otherCashbackEl.textContent = '';
-    totalCashbackEl.textContent = '';
+    // specialAmountErrorEl.textContent = '';
+    // otherAmountErrorEl.textContent = '';
+    totalDepositEl.textContent = '';
+    profitDepositEl.textContent = '';
+    percentDepositEl.textContent = '';
 
-    const specialAmount = Number(specialAmountInputEl.value);
-    if (Number.isNaN(specialAmount)){
-        specialAmountErrorEl.textContent = 'Неверное значение. Введите число, например: 10000';
-        return;
-    }
+    const amountInput = Number(amountInputEl.value);
+    // if (Number.isNaN(amountInput)){
+    //     specialAmountErrorEl.textContent = 'Неверное значение. Введите число, например: 10000';
+    //     return;
+    // }
 
-    const otherAmount = Number(otherAmountInputEl.value);
-    if (Number.isNaN(otherAmount)){
-        otherAmountErrorEl.textContent = 'Неверное значение. Введите число, например: 10000';
-        return;
-    }
+    const periodInput = Number(periodInputEl.value);
+    // if (Number.isNaN(periodInput)){
+    //     otherAmountErrorEl.textContent = 'Неверное значение. Введите число, например: 10000';
+    //     return;
+    // }
 
-    const result = calculateCashback(specialAmount, otherAmount);
-    specialCashbackEl.textContent = result.specialCategoryCashback.toFixed(0);
-    otherCashbackEl.textContent = result.otherCategoryCashback.toFixed(0);
-    totalCashbackEl.textContent = result.totalCashback.toFixed(0);
+    const result = calculateDeposit(amountInput, periodInput);
+    totalDepositEl.textContent = result.totalValue.toFixed(0);
+    profitDepositEl.textContent = result.profitValue.toFixed(0);
+    percentDepositEl.textContent = result.percentValue.toFixed(1);
 }
 
-const formEl = document.getElementById('cashback-form');
+const formEl = document.getElementById('deposit-form');
 // formEl.onsubmit = handleSubmit;
 formEl.addEventListener('submit', handleSubmit);
 
-const specialAmountInputEl = document.getElementById('special-amount-input');
-const otherAmountInputEl = document.getElementById('other-amount-input');
+//  входные значения
+const amountInputEl = document.getElementById('amount-input');
+const periodInputEl = document.getElementById('period-input');
 
-const specialAmountErrorEl = document.getElementById('special-amount-error');
-const otherAmountErrorEl = document.getElementById('other-amount-error');
-const specialCashbackEl = document.getElementById('special-cashback');
-const otherCashbackEl = document.getElementById('other-cashback');
-const totalCashbackEl = document.getElementById('total-cashback');
+//  обработка ошибок
+// const specialAmountErrorEl = document.getElementById('special-amount-error');
+// const otherAmountErrorEl = document.getElementById('other-amount-error');
 
-//  number - только числа, добавляет стрелки для +1/-1
-//  checkbox - квадратик для птички
-//  radio - кружочек для точки
-//  $(`#cashback-form`).on... - события формы
-//  const formE1 = $(`#cashback-form`)
-//  undefined
-//  monitorEvents(formE1, 'click')
-//  undefined
-// VM9:1 click PointerEvent {isTrusted: true, pointerId: 0, width: 1, height: 1, pressure: 0, …}
-// VM9:1 click PointerEvent {isTrusted: true, pointerId: 0, width: 1, height: 1, pressure: 0, …}
-// VM9:1 click PointerEvent {isTrusted: true, pointerId: 0, width: 1, height: 1, pressure: 0, …}
+//  выходные значения
+const totalDepositEl = document.getElementById('total');
+const profitDepositEl = document.getElementById('profit');
+const percentDepositEl = document.getElementById('percent');
