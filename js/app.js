@@ -23,28 +23,42 @@ function calculateDeposit(amountInputValue, periodInputValue){
         percentValue,
     };
 }
-// const cashback = calculateDeposit(5000, 10000);
-// console.log(cashback);
 function handleSubmit(evt){
     evt.preventDefault();
 
-    // specialAmountErrorEl.textContent = '';
-    // otherAmountErrorEl.textContent = '';
+    amountErrorEl.textContent = '';
+    periodErrorEl.textContent = '';
     totalDepositEl.textContent = '';
     profitDepositEl.textContent = '';
     percentDepositEl.textContent = '';
 
     const amountInput = Number(amountInputEl.value);
-    // if (Number.isNaN(amountInput)){
-    //     specialAmountErrorEl.textContent = 'Неверное значение. Введите число, например: 10000';
-    //     return;
-    // }
+    if (Number.isNaN(amountInput)){
+        amountErrorEl.textContent = 'Неверное значение. Введите число, например: 15000';
+        return;
+    }
+    if (amountInput < 15000){
+        amountErrorEl.textContent = 'Неверное значение. Минимальная сумма: 15000 ₽';
+        return;
+    }
+    if (amountInput > 50000000){
+        amountErrorEl.textContent = 'Неверное значение. Максимальная сумма: 50000000 ₽';
+        return;
+    }
 
     const periodInput = Number(periodInputEl.value);
-    // if (Number.isNaN(periodInput)){
-    //     otherAmountErrorEl.textContent = 'Неверное значение. Введите число, например: 10000';
-    //     return;
-    // }
+    if (Number.isNaN(periodInput)){
+        periodErrorEl.textContent = 'Неверное значение. Введите число месяцев, например: 3';
+        return;
+    }
+    if (periodInput < 3){
+        periodErrorEl.textContent = 'Неверное значение. Минимальный период: 3 месяца';
+        return;
+    }
+    if (periodInput > 18){
+        periodErrorEl.textContent = 'Неверное значение. Максимальный период: 18 месяцев';
+        return;
+    }
 
     const result = calculateDeposit(amountInput, periodInput);
     totalDepositEl.textContent = result.totalValue.toFixed(0);
@@ -61,8 +75,8 @@ const amountInputEl = document.getElementById('amount-input');
 const periodInputEl = document.getElementById('period-input');
 
 //  обработка ошибок
-// const specialAmountErrorEl = document.getElementById('special-amount-error');
-// const otherAmountErrorEl = document.getElementById('other-amount-error');
+const amountErrorEl = document.getElementById('amount-error');
+const periodErrorEl = document.getElementById('period-error');
 
 //  выходные значения
 const totalDepositEl = document.getElementById('total');
